@@ -1,1 +1,0 @@
-cout<<recsol(1,4294967295,0); // max number with 1 is 4294967295 (10 digits)
