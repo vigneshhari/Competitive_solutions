@@ -1,4 +1,4 @@
-val = input()
+val =    input()
 for k in range(0,val):
     dat = []
     lav = input()
