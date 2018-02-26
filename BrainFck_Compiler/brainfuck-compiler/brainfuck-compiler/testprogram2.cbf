@@ -1,7 +1,0 @@
-dim z,9
-declare x,1
-while x<=9
-	z[x]=x*2
-	x=x+1
-declare position26,z[5]*3
-debug
