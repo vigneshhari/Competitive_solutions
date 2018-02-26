@@ -4,7 +4,6 @@ steps = 0
 #Grandest Staircase
 
 def memoize(f):
-
     class memodict(dict):
         def __init__(self, f):
             self.f = f

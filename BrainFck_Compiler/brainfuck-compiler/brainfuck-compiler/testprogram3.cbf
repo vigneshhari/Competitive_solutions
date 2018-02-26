@@ -1,0 +1,12 @@
+func gcd(a,b)
+	while b!=0
+		declare t,b
+		b=a%b
+		a=t
+	gcd=a
+
+func lcm(a,b)
+	lcm=(a*b)/gcd(a,b)
+
+declare z,lcm(4,6)
+debug
