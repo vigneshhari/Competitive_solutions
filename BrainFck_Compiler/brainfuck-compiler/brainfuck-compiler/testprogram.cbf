@@ -1,0 +1,15 @@
+declare a,4
+declare b,6
+declare mul
+if !(a==0||b==0)
+	mul=a*b
+	while b>0
+		declare t,b
+		b=a%b
+		a=t
+	mul=mul/a
+else
+	a=0
+	b=0
+	mul=0
+debug

@@ -1,0 +1,1106 @@
+'Game ported from the book "Write your own adventure programs for your microcomputer" published by usborne books
+dim itemLocation, 18
+dim exits, 64
+dim flags, 37
+dim carryFlags, 36
+dim input, 30
+declare lightLeft, 60
+declare currentRoom, 58
+declare message
+declare inputLength
+declare spacePosition
+declare verb
+declare noun
+declare holeInWall
+declare secretRoomFound
+declare doorOpen
+
+sub outputDescription(room)
+	if room == 1
+		outs "DARK CORNER"
+	elseif room == 2
+		outs "OVERGROWN GARDEN"
+	elseif room == 3
+		outs "BY WOODPILE"
+	elseif room == 4
+		outs "YARD"
+	elseif room == 5
+		outs "WEEDPATCH"
+	elseif room == 6
+		outs "FOREST"
+	elseif room == 7
+		outs "THICK FOREST"
+	elseif room == 8
+		outs "BLASTED TREE"
+	elseif room == 9
+		outs "CORNER OF HOUSE"
+	elseif room == 10
+		outs "ENTRANCE TO KITCHEN"
+	elseif room == 11
+		outs "KITCHEN"
+	elseif room == 12
+		outs "SCULLERY DOOR"
+	elseif room == 13
+		outs "DUSTY ROOM"
+	elseif room == 14
+		outs "REAR TURRET ROOM"
+	elseif room == 15
+		outs "CLEARING"
+	elseif room == 16
+		outs "PATH"
+	elseif room == 17
+		outs "SIDE OF HOUSE"
+	elseif room == 18
+		outs "BACK OF HALLWAY"
+	elseif room == 19
+		outs "DARK ALCOVE"
+	elseif room == 20
+		outs "SMALL DARK ROOM"
+	elseif room == 21
+		outs "SPIRAL STAIRCASE"
+	elseif room == 22
+		outs "WIDE PASSAGE"
+	elseif room == 23
+		outs "SLIPPERY STEPS"
+	elseif room == 24
+		outs "CLIFFTOP"
+	elseif room == 25
+		outs "CRUMBLING WALL"
+	elseif room == 26
+		outs "GLOOMY PASSAGE"
+	elseif room == 27
+		outs "POOL OF LIGHT"
+	elseif room == 28
+		outs "VAULTED HALL"
+	elseif room == 29
+		if doorOpen
+			outs "HUGE OPEN DOOR"
+		else
+			outs "HALL WITH LOCKED DOOR"
+	elseif room == 30
+		outs "TROPHY ROOM"
+	elseif room == 31
+		if holeInWall
+			outs "HOLE IN WALL"
+		else
+			outs "CELLAR"
+	elseif room == 32
+		outs "CLIFF PATH"
+	elseif room == 33
+		outs "CUPBOARD"
+	elseif room == 34
+		outs "FRONT HALL"
+	elseif room == 35
+		outs "SITTING ROOM"
+	elseif room == 36
+		outs "SECRET ROOM"
+	elseif room == 37
+		outs "STEEP MARBLE STAIRS"
+	elseif room == 38
+		outs "DINING ROOM"
+	elseif room == 39
+		outs "DEEP CELLAR"
+	elseif room == 40
+		outs "CLIFF PATH"
+	elseif room == 41
+		outs "CLOSET"
+	elseif room == 42
+		outs "FRONT LOBBY"
+	elseif room == 43
+		outs "LIBRARY"
+	elseif room == 44
+		if secretRoomFound
+			outs "STUDY WITH SECRET ROOM"
+		else
+			outs "STUDY"
+	elseif room == 45
+		outs "COBWEBBY ROOM"
+	elseif room == 46
+		outs "COLD CHAMBER"
+	elseif room == 47
+		outs "SPOOKY ROOM"
+	elseif room == 48
+		outs "CLIFF PATH BY MARSH"
+	elseif room == 49
+		outs "VERANDAH"
+	elseif room == 50
+		outs "FRONT PORCH"
+	elseif room == 51
+		outs "FRONT TOWER"
+	elseif room == 52
+		outs "SLOPING CORRIDOR"
+	elseif room == 53
+		outs "UPPER GALLERY"
+	elseif room == 54
+		outs "MARSH BY WALL"
+	elseif room == 55
+		outs "MARSH"
+	elseif room == 56
+		outs "SOGGY PATH"
+	elseif room == 57
+		outs "TWISTED RAILINGS"
+	elseif room == 58
+		outs "PATH"
+	elseif room == 59
+		outs "PATH BY RAILINGS"
+	elseif room == 60
+		outs "BENEATH TOWER"
+	elseif room == 61
+		outs "DEBRIS"
+	elseif room == 62
+		outs "FALLEN BRICKWORK"
+	elseif room == 63
+		outs "STONE ARCH"
+	else
+		outs "CRUMBLING CLIFFTOP"
+
+sub outputObject(object)
+	if object == 1
+		outs "PAINTING"
+	elseif object == 2
+		outs "RING"
+	elseif object == 3
+		outs "MAGIC SPELLS"
+	elseif object == 4
+		outs "GOBLET"
+	elseif object == 5
+		outs "SCROLL"
+	elseif object == 6
+		outs "COINS"
+	elseif object == 7
+		outs "STATUE"
+	elseif object == 8
+		outs "CANDLESTICK"
+	elseif object == 9
+		outs "MATCHES"
+	elseif object == 10
+		outs "VACUUM"
+	elseif object == 11
+		outs "BATTERIES"
+	elseif object == 12
+		outs "SHOVEL"
+	elseif object == 13
+		outs "AXE"
+	elseif object == 14
+		outs "ROPE"
+	elseif object == 15
+		outs "BOAT"
+	elseif object == 16
+		outs "AEROSOL"
+	elseif object == 17
+		outs "CANDLE"
+	elseif object == 18
+		outs "KEY"
+	elseif object == 19
+		outs "NORTH"
+	elseif object == 20
+		outs "SOUTH"
+	elseif object == 21
+		outs "WEST"
+	elseif object == 22
+		outs "EAST"
+	elseif object == 23
+		outs "UP"
+	elseif object == 24
+		outs "DOWN"
+	elseif object == 25
+		outs "DOOR"
+	elseif object == 26
+		outs "BATS"
+	elseif object == 27
+		outs "GHOSTS"
+	elseif object == 28
+		outs "DRAWER"
+	elseif object == 29
+		outs "DESK"
+	elseif object == 30
+		outs "COAT"
+	elseif object == 31
+		outs "RUBBISH"
+	elseif object == 32
+		outs "COFFIN"
+	elseif object == 33
+		outs "BOOKS"
+	elseif object == 34
+		outs "XZANFAR"
+	elseif object == 35
+		outs "WALL"
+	else
+		outs "SPELLS"
+
+sub outputNumber(num)
+	declare digits
+	while num != 0
+		push num % 10
+		num = num / 10
+		digits = digits + 1
+	if digits == 0
+		digits = 1
+		push 0
+	dowhile digits
+		out pop + 48
+		digits = digits - 1
+
+sub printDirections(room)
+	declare firstOnePrinted
+	declare directions, exits[room]
+	if directions % 2
+		outs "N"
+		firstOnePrinted = 1
+	directions = directions / 2
+	if directions % 2
+		if firstOnePrinted
+			outs ", "
+		outs "S"
+		firstOnePrinted = 1
+	directions = directions / 2
+	if directions % 2
+		if firstOnePrinted
+			outs ", "
+		outs "W"
+		firstOnePrinted = 1
+	directions = directions / 2
+	if directions % 2
+		if firstOnePrinted
+			outs ", "
+		outs "E"
+		firstOnePrinted = 1
+	directions = directions / 2
+	if directions % 2
+		if firstOnePrinted
+			outs ", "
+		outs "U"
+		firstOnePrinted = 1
+	directions = directions / 2
+	if directions%2
+		if firstOnePrinted
+			outs ", "
+		outs "D"
+
+func parseVerb()
+	if (inputLength == 1 && !spacePosition) || spacePosition == 2
+		if input[1] == 14
+			parseVerb = 4
+		elseif input[1] == 19
+			parseVerb = 5
+		elseif input[1] == 23
+			parseVerb = 6
+		elseif input[1] == 5
+			parseVerb = 7
+		elseif input[1] == 21
+			parseVerb = 8
+		elseif input[1] == 4
+			parseVerb = 9
+	elseif (inputLength == 2 && !spacePosition) || spacePosition == 3
+		if input[1] == 7 && input[2] == 15
+			parseVerb = 3
+	elseif (inputLength == 3 && !spacePosition) || spacePosition == 4
+		if input[1] == 7 && input[2] == 5 && input[3] == 20
+			parseVerb = 10
+		elseif input[1] == 19 && input[2] == 1 && input[3] == 25
+			parseVerb = 15
+		elseif input[1] == 4 && input[2] == 9 && input[3] == 7
+			parseVerb = 16
+		elseif input[1] == 21 && input[2] == 19 && input[3] == 5
+			parseVerb = 22
+	elseif (inputLength == 4 && !spacePosition) || spacePosition == 5
+		if input[1] == 8 && input[2] == 5 && input[3] == 12 && input[4] == 16
+			parseVerb = 1
+		elseif input[1] == 20 && input[2] == 1 && input[3] == 11 && input[4] == 5
+			parseVerb = 11
+		elseif input[1] == 15 && input[2] == 16 && input[3] == 5 && input[4] == 14
+			parseVerb = 12
+		elseif input[1] == 18 && input[2] == 5 && input[3] == 1 && input[4] == 4
+			parseVerb = 14
+		elseif input[1] == 17 && input[2] == 21 && input[3] == 9 && input[4] == 20
+			parseVerb = 26
+		elseif input[1] == 5 && input[2] == 24 && input[3] == 9 && input[4] == 20
+			parseVerb = 26
+	elseif (inputLength == 5 && !spacePosition) || spacePosition == 6
+		if input[1] == 19 && input[2] == 23 && input[3] == 9 && input[4] == 14 && input[5] == 7
+			parseVerb = 17
+		elseif input[1] == 3 && input[2] == 12 && input[3] == 9 && input[4] == 13 && input[5] == 2
+			parseVerb = 18
+		elseif input[1] == 12 && input[2] == 9 && input[3] == 7 && input[4] == 8 && input[5] == 20
+			parseVerb = 19
+		elseif input[1] == 19 && input[2] == 16 && input[3] == 18 && input[4] == 1 && input[5] == 25
+			parseVerb = 21
+		elseif input[1] == 12 && input[2] == 5 && input[3] == 1 && input[4] == 22 && input[5] == 5
+			parseVerb = 24
+		elseif input[1] == 19 && input[2] == 3 && input[3] == 15 && input[4] == 18 && input[5] == 5
+			parseVerb = 25
+	elseif (inputLength == 6 && !spacePosition) || spacePosition == 7
+		if input[1] == 21 && input[2] == 14 && input[3] == 12 && input[4] == 15 && input[5] == 3 && input[6] == 11
+			parseVerb = 23
+	elseif (inputLength == 7 && !spacePosition) || spacePosition == 8
+		if input[1] == 5 && input[2] == 24 && input[3] == 1 && input[4] == 13 && input[5] == 9 && input[6] == 14 && input[7] == 5
+			parseVerb = 13
+		if input[1] == 21 && input[2] == 14 && input[3] == 12 && input[4] == 9 && input[5] == 7 && input[6] == 8 && input[7] == 20
+			parseVerb = 20
+	elseif (inputLength == 8 && !spacePosition) || spacePosition == 9
+		if input[1] == 3 && input[2] == 1 && input[3] == 18 && input[4] == 18 && input[5] == 25 && input[6] == 9 && input[7] == 14 && input[8] == 7
+			parseVerb = 2
+
+func parseNoun()
+	declare wordLength, inputLength - spacePosition
+	if (spacePosition != 0) && wordLength
+		if wordLength == 2
+			if input[spacePosition + 1] == 21 && input[spacePosition + 2] == 16
+				parseNoun = 23
+		elseif wordLength == 3
+			if input[spacePosition + 1] == 1 && input[spacePosition + 2] == 24 && input[spacePosition + 3] == 5
+				parseNoun = 13
+			elseif input[spacePosition + 1] == 11 && input[spacePosition + 2] == 5 && input[spacePosition + 3] == 25
+				parseNoun = 18
+		elseif wordLength == 4
+			if input[spacePosition + 1] == 18 && input[spacePosition + 2] == 9 && input[spacePosition + 3] == 14 && input[spacePosition + 4] == 7
+				parseNoun = 2
+			elseif input[spacePosition + 1] == 18 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 16 && input[spacePosition + 4] == 5
+				parseNoun = 14
+			elseif input[spacePosition + 1] == 2 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 1 && input[spacePosition + 4] == 20
+				parseNoun = 15
+			elseif input[spacePosition + 1] == 23 && input[spacePosition + 2] == 5 && input[spacePosition + 3] == 19 && input[spacePosition + 4] == 20
+				parseNoun = 21
+			elseif input[spacePosition + 1] == 5 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 19 && input[spacePosition + 4] == 20
+				parseNoun = 22
+			elseif input[spacePosition + 1] == 4 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 23 && input[spacePosition + 4] == 14
+				parseNoun = 24
+			elseif input[spacePosition + 1] == 4 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 15 && input[spacePosition + 4] == 18
+				parseNoun = 25
+			elseif input[spacePosition + 1] == 2 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 20 && input[spacePosition + 4] == 19
+				parseNoun = 26
+			elseif input[spacePosition + 1] == 4 && input[spacePosition + 2] == 5 && input[spacePosition + 3] == 19 && input[spacePosition + 4] == 11
+				parseNoun = 29
+			elseif input[spacePosition + 1] == 3 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 1 && input[spacePosition + 4] == 20
+				parseNoun = 30
+			elseif input[spacePosition + 1] == 23 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 12 && input[spacePosition + 4] == 12
+				parseNoun = 35
+		elseif wordLength == 5
+			if input[spacePosition + 1] == 3 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 9 && input[spacePosition + 4] == 14 && input[spacePosition + 5] == 19
+				parseNoun = 6
+			elseif input[spacePosition + 1] == 14 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 18 && input[spacePosition + 4] == 20 && input[spacePosition + 5] == 8
+				parseNoun = 19
+			elseif input[spacePosition + 1] == 19 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 21 && input[spacePosition + 4] == 20 && input[spacePosition + 5] == 8
+				parseNoun = 20
+			elseif input[spacePosition + 1] == 2 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 15 && input[spacePosition + 4] == 11 && input[spacePosition + 5] == 19
+				parseNoun = 33
+		elseif wordLength == 6
+			if input[spacePosition + 1] == 7 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 2 && input[spacePosition + 4] == 12 && input[spacePosition + 5] == 5 && input[spacePosition + 6] == 20
+				parseNoun = 4
+			elseif input[spacePosition + 1] == 19 && input[spacePosition + 2] == 3 && input[spacePosition + 3] == 18 && input[spacePosition + 4] == 15 && input[spacePosition + 5] == 12 && input[spacePosition + 6] == 12
+				parseNoun = 5
+			elseif input[spacePosition + 1] == 19 && input[spacePosition + 2] == 20 && input[spacePosition + 3] == 1 && input[spacePosition + 4] == 20 && input[spacePosition + 5] == 21 && input[spacePosition + 6] == 5
+				parseNoun = 7
+			elseif input[spacePosition + 1] == 22 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 3 && input[spacePosition + 4] == 21 && input[spacePosition + 5] == 21 && input[spacePosition + 6] == 13
+				parseNoun = 10
+			elseif input[spacePosition + 1] == 19 && input[spacePosition + 2] == 8 && input[spacePosition + 3] == 15 && input[spacePosition + 4] == 22 && input[spacePosition + 5] == 5 && input[spacePosition + 6] == 12
+				parseNoun = 12
+			elseif input[spacePosition + 1] == 3 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 14 && input[spacePosition + 4] == 4 && input[spacePosition + 5] == 12 && input[spacePosition + 6] == 5
+				parseNoun = 17
+			elseif input[spacePosition + 1] == 7 && input[spacePosition + 2] == 8 && input[spacePosition + 3] == 15 && input[spacePosition + 4] == 19 && input[spacePosition + 5] == 20 && input[spacePosition + 6] == 19
+				parseNoun = 27
+			elseif input[spacePosition + 1] == 4 && input[spacePosition + 2] == 18 && input[spacePosition + 3] == 1 && input[spacePosition + 4] == 23 && input[spacePosition + 5] == 5 && input[spacePosition + 6] == 18
+				parseNoun = 28
+			elseif input[spacePosition + 1] == 3 && input[spacePosition + 2] == 15 && input[spacePosition + 3] == 6 && input[spacePosition + 4] == 6 && input[spacePosition + 5] == 9 && input[spacePosition + 6] == 14
+				parseNoun = 32
+			elseif input[spacePosition + 1] == 19 && input[spacePosition + 2] == 16 && input[spacePosition + 3] == 5 && input[spacePosition + 4] == 12 && input[spacePosition + 5] == 12 && input[spacePosition + 6] == 19
+				parseNoun = 36
+		elseif wordLength == 7
+			if input[spacePosition + 1] == 13 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 20 && input[spacePosition + 4] == 3 && input[spacePosition + 5] == 8 && input[spacePosition + 6] == 5 && input[spacePosition + 7] == 19
+				parseNoun = 9
+			elseif input[spacePosition + 1] == 1 && input[spacePosition + 2] == 5 && input[spacePosition + 3] == 18 && input[spacePosition + 4] == 15 && input[spacePosition + 5] == 19 && input[spacePosition + 6] == 15 && input[spacePosition + 7] == 12
+				parseNoun = 16
+			elseif input[spacePosition + 1] == 18 && input[spacePosition + 2] == 21 && input[spacePosition + 3] == 2 && input[spacePosition + 4] == 2 && input[spacePosition + 5] == 9 && input[spacePosition + 6] == 19 && input[spacePosition + 7] == 8
+				parseNoun = 31
+			elseif input[spacePosition + 1] == 24 && input[spacePosition + 2] == 26 && input[spacePosition + 3] == 1 && input[spacePosition + 4] == 14 && input[spacePosition + 5] == 6 && input[spacePosition + 6] == 1 && input[spacePosition + 7] == 18
+				parseNoun = 34
+		elseif wordLength == 8
+			if input[spacePosition + 1] == 16 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 9 && input[spacePosition + 4] == 14 && input[spacePosition + 5] == 20 && input[spacePosition + 6] == 9 && input[spacePosition + 7] == 14 && input[spacePosition + 8] == 7
+				parseNoun = 1
+		elseif wordLength == 9
+			if input[spacePosition + 1] == 2 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 20 && input[spacePosition + 4] == 20 && input[spacePosition + 5] == 5 && input[spacePosition + 6] == 18 && input[spacePosition + 7] == 9 && input[spacePosition + 8] == 5 && input[spacePosition + 9] == 19
+				parseNoun = 11
+		elseif wordLength == 11
+			if input[spacePosition + 1] == 3 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 14 && input[spacePosition + 4] == 4 && input[spacePosition + 5] == 12 && input[spacePosition + 6] == 5 && input[spacePosition + 7] == 19 && input[spacePosition + 8] == 20 && input[spacePosition + 9] == 9 && input[spacePosition + 10] == 3 && input[spacePosition + 11] == 11
+				parseNoun = 8
+		elseif wordLength == 12
+			if input[spacePosition + 1] == 13 && input[spacePosition + 2] == 1 && input[spacePosition + 3] == 7 && input[spacePosition + 4] == 9 && input[spacePosition + 5] == 3 && input[spacePosition + 6] == 0 && input[spacePosition + 7] == 19 && input[spacePosition + 8] == 16 && input[spacePosition + 9] == 5 && input[spacePosition + 10] == 12 && input[spacePosition + 11] == 12 && input[spacePosition + 12] == 19
+				parseNoun = 3
+
+sub inputCommand()
+	inputLength = 0
+	spacePosition = 0
+	declare i, in
+	while i != 10
+		if inputLength < 30
+			if (i >= 97) && (i <= 122)
+				i = i - 32
+			if ((i >= 65) && (i <= 90)) || (i == 32)
+				out i
+				inputLength = inputLength + 1
+				if i == 32
+					if !spacePosition
+						spacePosition = inputLength
+					i = 0
+				else
+					i = i - 64
+				input[inputLength] = i
+		i = in
+	verb = parseVerb()
+	noun = parseNoun()
+
+sub outputMessage()
+	if message == 0
+		outs "OK"
+	elseif message == 1
+		outs "WHAT"
+	elseif message == 2
+		outs "THAT'S SILLY"
+	elseif message == 3
+		outs "I NEED TWO WORDS"
+	elseif message == 4
+		outs "YOU CAN'T "
+		declare i,1
+		while i <= inputLength
+			declare c, input[i]
+			if c == 0
+				out 32
+			else
+				out c + 64
+			i = i + 1
+	elseif message == 5
+		outs "YOU DON'T MAKE SENSE"
+	elseif message == 6
+		outs "YOU DON'T HAVE "
+		outputObject(noun)
+	elseif message == 7
+		outs "BATS ATTACKING"
+	elseif message == 8
+		outs "YOUR CANDLE IS WANING"
+	elseif message == 9
+		outs "YOUR CANDLE IS OUT"
+	elseif message == 10
+		outs ""
+	elseif message == 11
+		outs "CRASH! YOU FELL OUT OF THE TREE!"
+	elseif message == 12
+		outs "GHOSTS WILL NOT LET YOU MOVE"
+	elseif message == 13
+		outs "A MAGICAL BARRIER TO THE WEST"
+	elseif message == 14
+		outs "YOU NEED A LIGHT"
+	elseif message == 15
+		outs "YOU'RE STUCK"
+	elseif message == 16
+		outs "YOU CAN'T CARRY A BOAT"
+	elseif message == 17
+		outs "TOO DARK TO MOVE"
+	elseif message == 18
+		outs "YOU CAN'T GO THAT WAY"
+	elseif message == 19
+		outs "GO WHERE?"
+	elseif message == 20
+		outs "THE DOOR SLAMS SHUT!"
+	elseif message == 21
+		outs "I CAN'T GET "
+		outputObject(noun)
+	elseif message == 22
+		outs "IT ISN'T HERE"
+	elseif message == 23
+		outs "WHAT "
+		outputObject(noun)
+		outs "?"
+	elseif message == 24
+		outs "YOU ALREADY HAVE IT"
+	elseif message == 25
+		outs "YOU HAVE THE "
+		outputObject(noun)
+	elseif message == 26
+		outs "DRAWER OPEN"
+	elseif message == 27
+		outs "IT'S LOCKED"
+	elseif message == 28
+		outs "THAT'S CREEPY!"
+	elseif message == 29
+		outs "SOMETHING HERE!"
+	elseif message == 30
+		outs "THAT'S DISGUSTING"
+	elseif message == 31
+		outs "THERE IS A DRAWER"
+	elseif message == 32
+		outs "THERE IS SOMETHING BEYOND..."
+	elseif message == 33
+		outs "THEY ARE DEMONIC WORKS"
+	elseif message == 34
+		outs "USE THIS WORD WITH CARE 'XZANFAR'"
+	elseif message == 35
+		outs "THE SCRIPT IS IN AN ALIEN TONGUE"
+	elseif message == 36
+		outs "OK '"
+		declare i, spacePosition + 1
+		while i <= inputLength
+			declare c, input[i]
+			if c
+				out c + 64
+			else
+				out 32
+			i = i + 1
+		outs "'"
+	elseif message == 37
+		outs "*MAGIC OCCURS*"
+	elseif message == 38
+		outs "YOU MADE A HOLE"
+	elseif message == 39
+		outs "DUG THE BARS OUT"
+	elseif message == 40
+		outs "THIS IS NO TIME TO PLAY GAMES"
+	elseif message == 41
+		outs "YOU SWUNG IT"
+	elseif message == 42
+		outs "WHOOSH!"
+	elseif message == 43
+		outs "YOU BROKE THE THIN WALL"
+	elseif message == 44
+		outs "IT ISN'T ATTACHED TO ANYTHING"
+	elseif message == 45
+		outs "YOU SEE THICK FOREST AND CLIFF SOUTH"
+	elseif message == 46
+		outs "GOING DOWN"
+	elseif message == 47
+		outs "IT WILL BURN YOUR HANDS"
+	elseif message == 48
+		outs "NOTHING TO LIGHT IT WITH"
+	elseif message == 49
+		outs "IT CASTS A FLICKERING LIGHT"
+	elseif message == 50
+		outs "EXTINGUISHED"
+	elseif message == 51
+		outs "HISSSS"
+	elseif message == 52
+		outs "PFFT! GOT THEM"
+	elseif message == 53
+		outs "SWITCHED ON"
+	elseif message == 54
+		outs "WHIZZ- VACUUMED THE GHOSTS UP"
+	elseif message == 55
+		outs "THE KEY TURNS!"
+	elseif message == 56
+		outs "DONE"
+
+sub helpCommand()
+	out 10
+	outs "WORDS I KNOW: HELP, CARRYING, GO, N, S, W, E, U, D"
+	out 10
+	outs "              GET, TAKE, OPEN, EXAMINE, READ, SAY"
+	out 10
+	outs "              DIG, SWING, CLIMB, LIGHT, UNLIGHT"
+	out 10
+	outs "              SPRAY, USE, UNLOCK, LEAVE, SCORE"
+	out 10
+	message = 10
+	out 10
+	declare i
+	outs "PRESS ENTER TO CONTINUE"
+	dowhile i != 10
+		i = in
+	out 10
+
+sub carryingCommand()
+	declare firstfound
+	out 10
+	declare i, 1
+	while i <= 18
+		if carryFlags[i]
+			if !firstfound
+				outs "YOU ARE CARRYING: "
+				out 10
+				firstfound = 1
+			outs "    "
+			outputObject(i)
+			out 10
+		i = i + 1
+	if !firstfound
+		outs "YOU ARE NOT CARRYING ANYTHING"
+		out 10
+	message = 10
+	out 10
+	outs "PRESS ENTER TO CONTINUE"
+	dowhile i != 10
+		i = in
+	out 10
+
+sub moveCommand()
+	declare d
+	declare move,1
+	if !noun
+		d = verb - 3
+	if noun == 19
+		d = 1
+	if noun == 20
+		d = 2
+	if noun == 21
+		d = 3
+	if noun == 22
+		d = 4
+	if noun == 23
+		d = 5
+	if noun == 24
+		d = 6
+	if currentRoom == 21 && d == 5
+		d = 1
+	if currentRoom == 21 && d == 6
+		d = 3
+	if currentRoom == 23 && d == 6
+		d = 2
+	if currentRoom == 23 && d == 5
+		d = 3
+	if currentRoom == 37 && d == 6
+		d = 1
+	if currentRoom == 37 && d == 5
+		d = 2
+	if flags[14]
+		message = 11
+		flags[14] = 0
+		move = 0
+	if flags[27] && currentRoom == 53
+		message = 12
+		move = 0
+	if currentRoom == 46 && carryFlags[1] && d == 3
+		declare flag,flags[34]
+		if !flag
+			message = 13
+			move = 0
+	if (currentRoom == 27 && !flags[37]) && ((d == 1) || (d == 4))
+		message = 14
+		move = 0
+	if currentRoom == 55 && !carryFlags[15]
+		message = 15
+		move = 0
+	if carryFlags[15] && !((currentRoom == 54) || (currentRoom == 55) || (currentRoom == 56) || (currentRoom == 48))
+		message = 16
+		move = 0
+	if (currentRoom > 27 && currentRoom < 31) && !flags[37]
+		message = 17
+		move = 0
+	if move
+		flags[35] = 0
+		declare directions, exits[currentRoom]
+		if (directions % 2) && (d == 1) && !flags[35]
+			currentRoom = currentRoom - 8
+			flags[35] = 1
+		if ((directions / 2) % 2) && (d == 2) && !flags[35]
+			currentRoom = currentRoom + 8
+			flags[35] = 1
+		if ((directions / 4) % 2) && (d == 3) && !flags[35]
+			currentRoom = currentRoom - 1
+			flags[35] = 1
+		if ((directions / 8) % 2) && (d == 4) && !flags[35]
+			currentRoom = currentRoom + 1
+			flags[35] = 1
+		message = 0
+		if !flags[35]
+			message = 18
+	if !d
+		message = 19
+	if currentRoom == 42 && flags[23]
+		exits[50] = 6
+		flags[23] = 0
+		message = 20
+
+sub takeCommand()
+	if noun > 18
+		message = 21
+	elseif itemLocation[noun] != currentRoom
+		message = 22
+	elseif flags[noun]
+		message = 23
+	elseif carryFlags[noun]
+		message = 24
+	elseif noun && (itemLocation[noun] == currentRoom) && !flags[noun]
+		carryFlags[noun] = 1
+		itemLocation[noun] = 65
+		message = 25
+
+sub openCommand()
+	if (currentRoom == 44) && ((noun == 28) || (noun == 29))
+		flags[17] = 0
+		message = 26
+	elseif currentRoom == 29 && noun == 25
+		message = 27
+	elseif currentRoom == 39 && noun == 32
+		message = 28
+		flags[2] = 0
+
+sub readCommand()
+	if currentRoom == 43 && noun == 33
+		message = 33
+	elseif (noun == 3 || noun == 36) && carryFlags[3] && !flags[34]
+		message = 34
+	elseif carryFlags[5] && noun == 5
+		message = 35
+
+sub examineCommand()
+	if noun == 30 && currentRoom == 33
+		message = 29
+		flags[18] = 0
+	elseif noun == 31 && currentRoom == 4
+		message = 30
+	elseif (noun == 28 || noun == 29) && (currentRoom == 44)
+		message = 31
+	elseif noun == 33 || noun == 5
+		readCommand()
+	elseif currentRoom == 44  && noun == 35
+		message = 32
+	elseif noun == 32
+		openCommand()
+
+sub sayCommand()
+	message = 36
+	if carryFlags[3] && (noun == 34) && currentRoom != 46
+		message = 37
+		currentRoom = random
+		currentRoom = (currentRoom / 4) + 1
+	elseif carryFlags[3] && noun == 34 && currentRoom == 46
+		message = 37
+		flags[34] = 1
+
+sub digCommand()
+	if carryFlags[12]
+		if currentRoom == 31
+			message = 39
+			holeInWall = 1
+			exits[currentRoom] = 11
+		else
+			message = 38
+
+sub swingCommand()
+	if !carryFlags[14] && currentRoom == 8
+		message = 40
+	elseif noun == 14 && carryFlags[14]
+		message = 41
+	elseif noun == 13 && carryFlags[13]
+		if currentRoom == 44
+			exits[currentRoom] = 5
+			secretRoomFound = 1
+			message = 43
+		else
+			message = 42
+
+sub climbCommand()
+	if noun == 14 && carryFlags[14]
+		message = 44
+	elseif noun == 14 && !carryFlags[14] && currentRoom == 8
+		if !flags[14]
+			message = 45
+			flags[14] = 1
+		else
+			message = 46
+			flags[14] = 0
+
+sub lightCommand()
+	if noun == 17 && carryFlags[17]
+		if !carryFlags[8]
+			message = 47
+		elseif !carryFlags[9]
+			message = 48
+		elseif carryFlags[8] && carryFlags[9]
+			message = 49
+			flags[37] = 1
+
+sub unlightCommand()
+	if flags[37]
+		flags[37] = 0
+		message = 50
+
+sub sprayCommand()
+	if carryFlags[16]
+		message = 51
+		if noun == 26 && flags[26] && currentRoom == 14
+			flags[26] = 0
+			message = 52
+
+sub useCommand()
+	if noun == 10 && carryFlags[10] && carryFlags[11]
+		message = 53
+		flags[24] = 1
+	if flags[27] && flags[24]
+		message = 54
+		flags[27] = 0
+
+sub unlockCommand()
+	if currentRoom == 44 && ((noun == 27) || (noun == 28))
+		openCommand()
+	elseif currentRoom == 29 && noun == 25 && !flags[25] && carryFlags[18]
+		flags[25] = 1
+		exits[currentRoom] = 14
+		doorOpen = 1
+		message = 55
+
+sub leaveCommand()
+	if carryFlags[noun]
+		message = 56
+		carryFlags[noun] = 0
+		itemLocation[noun] = currentRoom
+
+sub scoreCommand()
+	declare s
+	declare i,1
+	while i <= 18
+		if carryFlags[i]
+			s = s + 1
+		i = i + 1
+	if s == 17 && !carryFlags[15] && currentRoom != 58
+		out 10
+		outs "YOU HAVE EVERYTHING"
+		out 10
+		outs "RETURN TO THE GATE FOR FINAL SCORE"
+		out 10
+	elseif s == 17 && currentRoom == 58
+		out 10
+		outs "DOUBLE SCORE FOR REACHING HERE!"
+		out 10
+		s = s * 2
+	out 10
+	outs "YOUR SCORE: "
+	outputNumber(s)
+	out 10
+	if s > 18
+		out 10
+		outs "WELL DONE! YOU FINISHED THE GAME!"
+		out 10
+		verb = 26
+	out 10
+	outs "PRESS ENTER TO CONTINUE"
+	dowhile i != 10
+		i = in
+	out 10
+	message = 10
+
+
+sub executeCommand()
+	if verb == 1
+		helpCommand()
+	elseif verb == 2
+		carryingCommand()
+	elseif (verb >= 3) && (verb <= 9)
+		moveCommand()
+	elseif (verb == 10) || (verb == 11)
+		takeCommand()
+	elseif verb == 12
+		openCommand()
+	elseif verb == 13
+		examineCommand()
+	elseif verb == 14
+		readCommand()
+	elseif verb == 15
+		sayCommand()
+	elseif verb == 16
+		digCommand()
+	elseif verb == 17
+		swingCommand()
+	elseif verb == 18
+		climbCommand()
+	elseif verb == 19
+		lightCommand()
+	elseif verb == 20
+		unlightCommand()
+	elseif verb == 21
+		sprayCommand()
+	elseif verb == 22
+		useCommand()
+	elseif verb == 23
+		unlockCommand()
+	elseif verb == 24
+		leaveCommand()
+	elseif verb == 25
+		scoreCommand()
+
+sub gameLoop()
+	dowhile verb != 26
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		out 10
+		outs "-----------------------------------------------------------"
+		out 10
+		out 10
+		outs "YOUR LOCATION: "
+		outputDescription(currentRoom)
+		out 10
+		outs "EXITS: "
+		printDirections(currentRoom)
+		out 10
+		declare i,1
+		declare notfirstone
+		dowhile i <= 18
+			if itemLocation[i] == currentRoom && !flags[i]
+				if !notfirstone
+					outs "YOU CAN SEE "
+				if notfirstone
+					outs ", "
+				outputObject(i)
+				notfirstone = 1
+			i = i + 1
+		if notfirstone
+			outs " HERE"
+		out 10
+		out 10
+		outputMessage()
+		message = 1
+		out 10
+		outs "WHAT WILL YOU DO NOW?"
+		out 10
+		outs "> "
+		inputCommand()
+		out 10
+'		if verb != 26
+'			out 10
+'			outs "PROCESSING..."
+'			out 10
+		if inputLength > 0 && !noun
+			message = 2
+		if !inputLength
+			message = 3
+		if !verb && noun
+			message = 4
+		if !verb && !noun
+			message = 5
+		if verb && noun &&! carryFlags[noun]
+			message = 6
+		if flags[26] && currentRoom == 14 && !((verb == 21) || (verb == 26) || (verb == 1) || (verb == 2))
+			if  random <= 170
+				message = 7
+				verb = 27
+		if currentRoom == 45 && !flags[24]
+			if random < 128
+				flags[27] = 1
+		if flags[37]
+			lightLeft = lightLeft - 1
+		if !lightLeft
+			flags[37] = 0
+		executeCommand()
+		if lightLeft == 10
+			message = 8
+		if lightLeft == 1
+			message = 9
+		declare RND,random
+
+'BEGINNING OF PROGRAM
+exits[1] = 10
+exits[2] = 12
+exits[3] = 12
+exits[4] = 14
+exits[5] = 12
+exits[6] = 12
+exits[7] = 14
+exits[8] = 6
+exits[9] = 3
+exits[10] = 10
+exits[11] = 12
+exits[12] = 5
+exits[13] = 10
+exits[14] = 4
+exits[15] = 9
+exits[16] = 7
+exits[17] = 3
+exits[18] = 3
+exits[19] = 10
+exits[20] = 12
+exits[21] = 53
+exits[22] = 10
+exits[23] = 54
+exits[24] = 3
+exits[25] = 1
+exits[26] = 3
+exits[27] = 11
+exits[28] = 12
+exits[29] = 12
+exits[30] = 7
+exits[31] = 3
+exits[32] = 3
+exits[33] = 2
+exits[34] = 11
+exits[35] = 7
+exits[36] = 2
+exits[37] = 51
+exits[38] = 1
+exits[39] = 1
+exits[40] = 3
+exits[41] = 9
+exits[42] = 5
+exits[43] = 9
+exits[44] = 4
+exits[45] = 11
+exits[46] = 12
+exits[47] = 4
+exits[48] = 3
+exits[49] = 10
+exits[50] = 7
+exits[51] = 8
+exits[52] = 12
+exits[53] = 5
+exits[54] = 2
+exits[55] = 6
+exits[56] = 5
+exits[57] = 9
+exits[58] = 13
+exits[59] = 12
+exits[60] = 12
+exits[61] = 12
+exits[62] = 13
+exits[63] = 13
+exits[64] = 4
+
+itemLocation[1] = 47
+itemLocation[2] = 39
+itemLocation[3] = 36
+itemLocation[4] = 51
+itemLocation[5] = 14
+itemLocation[6] = 19
+itemLocation[7] = 29
+itemLocation[8] = 43
+itemLocation[9] = 11
+itemLocation[10] = 26
+itemLocation[11] = 27
+itemLocation[12] = 5
+itemLocation[13] = 3
+itemLocation[14] = 8
+itemLocation[15] = 48
+itemLocation[16] = 61
+itemLocation[17] = 44
+itemLocation[18] = 33
+
+flags[18] = 1
+flags[17] = 1
+flags[2] = 1
+flags[26] = 1
+flags[28] = 1
+flags[23] = 1
+
+gameLoop()
+
