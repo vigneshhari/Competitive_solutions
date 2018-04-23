@@ -112,6 +112,6 @@ def Actual_Calculator(test,vi):
     return float(vals)
 
 test = Calc_num();
-vi = input("Enter the Calculation String" + '\n')
+vi = raw_input("Enter the Calculation String" + '\n')
 ans = Actual_Calculator(test,vi)
 print(ans)
