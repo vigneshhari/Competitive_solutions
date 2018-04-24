@@ -1,6 +1,5 @@
 inp = input()
 
-
 """
 
 # Shittiest Solution Ever **FacePalm**
