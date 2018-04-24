@@ -17,11 +17,14 @@ def MatrixChainOrder(p, i, j):
     # recursively calculate count of
     # multiplications for each parenthesis
     # placement and return the minimum count
+
+    print(" Considered " , " i " , i , " j " , j)
+
+
     for k in range(i, j):
      
-        count = (MatrixChainOrder(p, i, k) 
-             + MatrixChainOrder(p, k+1, j)
-                   + p[i-1] * p[k] * p[j])
+        print(" i " , i - 1   , " k " , k , " j " , j)
+        count = (MatrixChainOrder(p, i, k) + MatrixChainOrder(p, k+1, j) + p[i-1] * p[k] * p[j])
  
         if count < _min:
             _min = count;
