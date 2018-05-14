@@ -8,8 +8,7 @@ def checker(strval , curpos , pointer , avail):
             if(j[0] == strval[curpos]):
                 if(checker(strval , curpos +1 , i , avail) == True):check = False  
     else:
-        if(curpos = len(avail[pointer])):
-            
+        if(curpos == len(avail[pointer])):
             del avail[pointer]
         
         if(avail[pointer] == strval[curpos + 1]):
