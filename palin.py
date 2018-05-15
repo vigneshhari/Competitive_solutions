@@ -2,9 +2,9 @@
 inp = input()
 for _ in range(int(inp)):
 
-    cv = input()
+    cv = raw_input()
     val = list(map( int , cv))
-    cv = int(cv)
+    cv= int(cv)
     if(cv < 10):
         if(cv == 9):print(cv + 2)
         else :print(cv+1) ; continue
