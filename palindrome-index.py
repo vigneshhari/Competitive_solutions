@@ -15,8 +15,6 @@ for _ in range(input()):
     done = True
     while i <= j:
         if(inp[i] != inp[j]):
-            print inp[0:i] + inp[i+1:]
-            print inp[0:j] + inp[j+1 : ]
             if palindrome_check(inp[0:i] + inp[i+1:]):
                 done = False
                 print i
