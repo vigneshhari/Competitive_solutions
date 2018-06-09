@@ -10,7 +10,8 @@ class Size_Set:
         if(self.S[x] < 0):
             return x
         else:
-            return self.Find(self.S[x])
+            self.S[x] = self.Find(self.S[x]) 
+            return self.S[x]
     
 
     def Union(self,root1,root2):
