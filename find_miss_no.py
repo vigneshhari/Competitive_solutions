@@ -1,43 +1,3 @@
-'''
-def locate(a, b, c):
-    c = c / 2
-    r = a - 1
-    l = a - 1 - c
-    if r == b or l == b:return a
-    else:
-        if b <= l:return locate(l, b, c)
-        else:return locate(r, b, c)
-
-def answer(h, q):
-    root = (2 ** h) - 1
-    result = []
-    for i in range(len(q)):
-        if q[i] < root and q[i] >= 1:
-            x = locate(root, q[i], root - 1)
-            result.append(x)
-        else:result.append(-1)
-    return result
-
-print answer(5, [19, 14, 28])
-
-
-from itertools import product 
-
-n , mod = map(int , raw_input().split())
-lis = []
-
-def squarer(val):
-    return val*val
-
-for _ in range(n):
-    get = map(int , raw_input().split())
-    lis.append(map(squarer , get[1:]))
-maxv = 0
-for i in product(*lis):
-    if(sum(i) % mod > maxv ):
-        maxv = sum(i) % mod
-print maxv
-'''
 
 missing = -1
 
@@ -84,13 +44,23 @@ def getnum(length , l):
     return fin
 
 def missingNumber(string):
+    global missing
+    missing = -1
     l = list(map(int , list(string)))
     done = True
     for i in range(0,(len(string)//2) + 1 ):
         if(completed(getnum(i,l)+1 ,i+1 , l , 1  ) == True):
+            if(missing == -1):return -1
             return missing
             done = False
             break
+        missing = -1
     if(done == True):return -1
 
-print(missingNumber("99100101102104"))
+
+
+if __name__=='__main__':
+    t = int(input())
+    for i in range(t):
+        string = input().strip()
+        print(missingNumber(string))
