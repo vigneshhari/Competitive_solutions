@@ -38,7 +38,7 @@ for i in product(*lis):
         maxv = sum(i) % mod
 print maxv
 '''
-
+'''
 missing = -1
 
 def numberlength(number):
@@ -94,3 +94,17 @@ def missingNumber(string):
     if(done == True):return -1
 
 print(missingNumber("99100101102104"))
+'''
+
+'''
+def decodeHuff(root, s):
+    main_root = root
+    i = 0
+    while i != len(s):
+        root = main_root
+        while(s[i] == 1):
+            i+=1
+            root = root.right
+        out += root.left.data
+        i += 1
+'''
