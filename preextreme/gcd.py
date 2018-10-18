@@ -10,3 +10,5 @@ for _ in range(input()):
             break
     if(flag):
         print "-1"
+
+# works

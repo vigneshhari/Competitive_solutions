@@ -4,3 +4,5 @@ for _ in range(tries):
     code , out = map(int , raw_input().split())
     ans += (length - out)
 print ans
+
+#Incomplete
