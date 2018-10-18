@@ -7,3 +7,5 @@ for i in range(1,1000):
             if(A * B * C == val and A > 0 and B> 0 and C > 0  ):
                 ans.append( (i*j*k) - 4 )
 print min(ans) , max(ans)
+
+# Time Exceed

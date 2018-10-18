@@ -25,3 +25,6 @@ while i < length:
     ans += email[i]
     i+=1
 print ans
+
+
+#Incomplete

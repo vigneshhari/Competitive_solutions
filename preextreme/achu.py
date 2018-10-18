@@ -7,3 +7,5 @@ for _ in range(input()):
     if(nx > bx or ny > by or nx < (-1 * bx) or ny < (-1 * by) ):continue
     steps += max(abs(cx) , abs(cy))
 print steps
+
+#works
