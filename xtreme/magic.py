@@ -45,13 +45,16 @@ yep xrtp gobr rohjy'''
 '''
 
 
-map = { "xrtp": 0, "pmr": 1, "yep": 2, "yjtrr": 3, "gpit": 4, "gobr": 5, "doc": 6, "drbrm": 7, "rohjy": 8, "momr": 9, "yrm": 10, "rarbrm": 11, "yerabr": 12, "yjotyrrm": 13, "gpityrrm": 14, "gogyrrm": 15, "docyrrm": 16, "drbrmyrrm": 17, "rohjyyrrm": 18, "momryrrm": 19, "yermyu": 20 }
+map = { "xrtp": 0, "pmr": 1, "yep": 2, "yjtrr": 3, "gpit": 4, "gobr": 5, "doc": 6, "drbrm": 7, "rohjy": 8, "momr": 9, "yrm": 10, "rarbrm": 11,
+"yerabr": 12, "yjotyrrm": 13, "gpityrrm": 14, "gogyrrm": 15, "docyrrm": 16, "drbrmyrrm": 17, "rohjyyrrm": 18, "momryrrm": 19, "yermyu": 20 }
 
-def p(N): 
+def p(N):
     result = 1
     for n in range( int(N) ):
         arr = [ str(map[x]) for x in input().split() ]
         result *= int("".join(arr), 16)
     print (result)
+
+p(input())
 
 # I have found happiness
