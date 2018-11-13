@@ -21,13 +21,24 @@ def backtracker(arr, pos , amount , coins):
             return val
     return -1
 
+def dp_solution(coins_avail, amount):
+    #coin_used = [ [] for i in range( amount + 1) ]
+    dp = [-1 ]* (amount + 1)
+    dp[0] = 0
+    i = -1
+    while i < amount :
+        i+=1
+        for j in coins_avail:
+            if( j > i ):continue
+            subsol = dp[ i - j ]
+            if( subsol != -1  and  ( dp[i] == -1 or  dp[i] > subsol + 1 )  ):
+                dp[i] = subsol + 1
+                #coin_used[i] = coin_used[i - j] + [j]
+    return dp[amount]
+
+
 
 for _ in range(int(input())):
-    length , amount = list(map(int , input().split() ))
+    amount , length = list(map(int , input().split() ))
     coins = list(map(int , input().split() ))
-    coins.sort()
-    minv = []
-    print(backtracker(coins , length -1 , amount , 0))
-    if(len(minv) == 0):
-        print(-1)
-    else:print(min(minv))
+    print(dp_solution(coins , amount))
