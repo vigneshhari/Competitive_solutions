@@ -1,6 +1,6 @@
 /*
 Author : Vignesh Hari
-Title : Coding train Challenge 3 : Purple Rain
+Title : Coding train Challenge 4 : Purple Rain
 Date : 27th February 2020
 */
 
