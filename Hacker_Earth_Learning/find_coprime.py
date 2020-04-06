@@ -7,9 +7,9 @@ def finder(a,b):
 
 cases = input()
 for case in range(cases):
-    inp = input()
+    user_input = input()
     out = 0
-    for i in range(1,inp+1):
-        for k in range(1,inp+1):
+    for i in range(1,user_input+1):
+        for k in range(1,user_input+1):
             if(finder(i,k)):out+=1
     print out
