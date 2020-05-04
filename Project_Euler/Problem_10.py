@@ -1,4 +1,7 @@
-
+'''
+ Problem 10
+ Summation of primes
+'''
 
 def normal_prime(num):
     if(num == 1):return 0
