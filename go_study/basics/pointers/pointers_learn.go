@@ -1,15 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
 
 func main() {
-	i, j := 42, 2701
-
-	p := &i         
-	fmt.Println(*p) 
-	*p = 21         
-	fmt.Println(i)  
-
-	p = &j      
-	*p = *p / 37 
-	fmt.Println(j) 
+	reader := bufio.NewReader(os.Stdin)
+	text, _ := reader.ReadString('\n')
+	text = text[:len(text) -1]
+	number, _ := strconv.Atoi(text)
+	if(number % 2 == 0) {
+		fmt.Println("YES")
+	} else {fmt.Println("NO")}
+}
