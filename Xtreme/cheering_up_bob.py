@@ -24,7 +24,8 @@ def CheckWin():
     return False
 
 def dicttonum(lis):
-    return ((lis[0] - 1) * 3) + (lis[1] -1)
+    return ((lis[0] - 1) * 3) + (lis[1] -1
+    )
 
 for i in range(1,10):
     print dicttonum(moves[i])
