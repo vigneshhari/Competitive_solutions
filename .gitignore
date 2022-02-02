@@ -1,4 +1,7 @@
 .vscode/settings.json
- 
- 
+
 *.out
+
+**/.idea/*
+
+.idea
