@@ -53,7 +53,7 @@ class STree():
         Algorithm based on:
         McCreight, Edward M. "A space-economical suffix tree construction algorithm." - ACM, 1976.
         Implementation based on:
-        UH CS - 58093 String Processing Algorithms Lecture Notes
+        UH CS - 58093 String Processing_JS Algorithms Lecture Notes
         """
         u = self.root
         d = 0

@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	p "github.com/bregydoc/PGoJs/Processing"
+	p "github.com/bregydoc/PGoJs/Processing_JS"
 )
 
 var width = 950

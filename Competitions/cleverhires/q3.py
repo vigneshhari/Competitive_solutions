@@ -8,14 +8,14 @@ class point(object):
     self.z = z
 
 def distance(A,B):
-  C = points(0,0,0)
+  C = point(0,0,0)
   C.x = A.x - B.x
   C.y = A.y - B.y
   C.z = A.z - B.z
   return C
 
 def crossProduct(AB,BC):
-  E = points(0,0,0)
+  E = point(0,0,0)
   E.x = AB.y*BC.z - AB.z*BC.y
   E.y = AB.z*BC.x - AB.x*BC.z
   E.z = AB.x*BC.y - AB.y*BC.x
