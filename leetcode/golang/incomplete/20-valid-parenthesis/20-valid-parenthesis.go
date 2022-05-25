@@ -3,27 +3,29 @@ package main
 import "fmt"
 
 func isValid(s string) bool {
-	var stack []byte
+	stack := make([]byte, len(s))
+	pointer := -1
 	for i := 0; i < len(s); i++ {
 		if s[i] == '{' || s[i] == '(' || s[i] == '[' {
-			stack = append(stack, s[i])
+			pointer++
+			stack[pointer] = s[i]
 		} else {
-			if len(stack) == 0 {
+			if pointer == -1 {
 				return false
 			}
-			if stack[len(stack)-1] == '(' && s[i] != ')' {
+			if stack[pointer] == '(' && s[i] != ')' {
 				return false
-			} else if stack[len(stack)-1] == '{' && s[i] != '}' {
+			} else if stack[pointer] == '{' && s[i] != '}' {
 				return false
-			} else if stack[len(stack)-1] == '[' && s[i] != ']' {
+			} else if stack[pointer] == '[' && s[i] != ']' {
 				return false
 			}
-			stack = stack[:len(stack)-1]
+			pointer--
 		}
 	}
-	return len(stack) == 0
+	return pointer == -1
 }
 
 func main() {
-	fmt.Print(isValid("{(}"))
+	fmt.Print(isValid("()"))
 }
