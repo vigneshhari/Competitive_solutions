@@ -2,18 +2,6 @@ package main
 
 import "fmt"
 
-func containsDuplicate(nums []int) bool {
-	items := make(map[int]bool)
-	for _, j := range nums {
-		_, err := items[j]
-		if err {
-			return true
-		}
-		items[j] = true
-	}
-	return false
-}
-
 func twoSum(nums []int, target int) []int {
 	items := make(map[int]int)
 	for i, j := range nums {
