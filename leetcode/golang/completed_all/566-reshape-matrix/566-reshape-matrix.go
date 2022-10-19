@@ -24,5 +24,5 @@ func matrixReshape(mat [][]int, r int, c int) [][]int {
 }
 
 func main() {
-	fmt.Println("Hello World!", matrixReshape([][]int{[]int{1, 2}, []int{3, 4}}, 4, 1))
+	fmt.Println("Hello World!", matrixReshape([][]int{{1, 2}, {3, 4}}, 4, 1))
 }
