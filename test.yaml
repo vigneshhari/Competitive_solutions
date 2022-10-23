@@ -1,0 +1,11 @@
+network:
+  version: 2
+  ethernets:
+    eno8303:
+      dhcp4: no
+      addresses: [192.168.120.20/24]
+      gateway4: 192.168.120.1
+      nameservers:
+        addresses: [8.8.8.8,8.8.4.4]
+    eno8403:
+      dhcp4: no
