@@ -4,13 +4,12 @@ import "fmt"
 
 func moveZeroes(nums []int) {
 	zeroPointer := 0
-	currentPointer := 0
 	for i := 0; i < len(nums); i++ {
-		if nums[i] == 0 {
-
+		if nums[i] != 0 && zeroPointer != i {
+			nums[zeroPointer], nums[i] = nums[i], 0
+			zeroPointer++
 		}
 	}
-
 }
 
 func main() {
